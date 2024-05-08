@@ -1,0 +1,31 @@
+services:
+  k3s:
+    image: rancher/k3s:v1.29.4-k3s1-amd64
+    platform: linux/amd64
+    command: server --https-listen-port=6444 --tls-san 127.0.0.1
+    privileged: true
+    volumes:
+      - k3svolume:/var/lib/rancher/k3s
+    ports:
+      - "6444:6444"
+    environment:
+      K3S_KUBECONFIG_OUTPUT: "/output/kubeconfig.yaml"
+      K3S_KUBECONFIG_MODE: "666"
+#
+#  rancher:
+#    image: rancher/rancher:v2.8.3-linux-amd64
+#    platform: linux/amd64
+#    restart: unless-stopped
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    environment:
+#      CATTLE_BOOTSTRAP_PASSWORD: "11@@qqWW"
+#      CATTLE_SYSTEM_CATALOG: "bundled"
+#      CATTLE_FEATURES: "multi-cluster-management=true"
+#    privileged: true
+#    depends_on:
+#      - k3s
+
+volumes:
+  k3svolume:
